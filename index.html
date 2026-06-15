@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizi pratici</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --bg-grad-1: #11263a;
+        --bg-grad-2: #0b0e14;
+        --card: #141925;
+        --card-hover: #1a2030;
+        --border: #232a3a;
+        --text: #e7ecf3;
+        --muted: #8b95a7;
+        --accent: #f7931a;
+        --accent-soft: rgba(247, 147, 26, 0.12);
+        --mono-bg: #0d111a;
+        --btc: #f7931a;
+        --btc-bg: rgba(247, 147, 26, 0.12);
+        --eth: #627eea;
+        --eth-bg: rgba(98, 126, 234, 0.14);
+        --trx: #ff4d4d;
+        --trx-bg: rgba(255, 77, 77, 0.13);
+        --success: #3ecf8e;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .hero {
+        background:
+          radial-gradient(1200px 400px at 15% -10%, var(--bg-grad-1), transparent 60%),
+          radial-gradient(900px 360px at 100% 0%, rgba(247,147,26,0.10), transparent 55%),
+          var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 56px 0 40px;
+      }
+
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+      .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+      .brand svg { flex-shrink: 0; }
+      .brand span {
+        font-weight: 600; font-size: 14px; letter-spacing: .06em;
+        text-transform: uppercase; color: var(--muted);
+      }
+
+      h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+      .subtitle { color: var(--muted); font-size: 16px; margin-top: 12px; max-width: 640px; }
+
+      .search-wrap { position: relative; margin-top: 28px; max-width: 440px; }
+      .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+      #search {
+        width: 100%; height: 46px; padding: 0 16px 0 42px;
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: 12px; color: var(--text); font-size: 15px; font-family: inherit;
+        outline: none; transition: border-color .15s, box-shadow .15s;
+      }
+      #search::placeholder { color: var(--muted); }
+      #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+      main { padding: 40px 0 64px; }
+
+      .group { margin-bottom: 44px; }
+      .group-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+      .group-head h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+      .count {
+        font-size: 12px; font-weight: 600; color: var(--muted);
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px;
+      }
+
+      .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 32px; } }
+
+      .card {
+        background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+        padding: 18px; display: flex; flex-direction: column; gap: 14px;
+        transition: transform .15s, border-color .15s, background .15s;
+      }
+      .card:hover { transform: translateY(-2px); border-color: #2e3850; background: var(--card-hover); }
+
+      .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+      .name-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+      .num { color: var(--muted); font-size: 13px; font-weight: 600; }
+      .name { font-size: 16px; font-weight: 600; }
+
+      .chip {
+        font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+        padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+      }
+      .chip.btc { color: var(--btc); background: var(--btc-bg); }
+      .chip.eth { color: var(--eth); background: var(--eth-bg); }
+      .chip.trx { color: var(--trx); background: var(--trx-bg); }
+
+      .addr-row { display: flex; align-items: stretch; gap: 8px; }
+      .addr {
+        flex: 1; min-width: 0; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+        font-size: 13px; background: var(--mono-bg); border: 1px solid var(--border);
+        border-radius: 10px; padding: 10px 12px; color: #c7d0de; word-break: break-all;
+      }
+      .copy {
+        flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+        background: var(--accent); color: #1a1205; border: none; border-radius: 10px;
+        padding: 0 14px; font-size: 13px; font-weight: 600; font-family: inherit;
+        cursor: pointer; transition: background .15s, transform .1s; align-self: stretch;
+      }
+      .copy:hover { background: #ffa733; }
+      .copy:active { transform: scale(0.96); }
+      .copy.done { background: var(--success); color: #052517; }
+
+      .noresults { text-align: center; color: var(--muted); padding: 48px 0; display: none; }
+
+      footer {
+        border-top: 1px solid var(--border); padding: 24px 0;
+        text-align: center; color: var(--muted); font-size: 13px;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f6f7f9; --bg-grad-1: #e6eef6; --card: #ffffff; --card-hover: #ffffff;
+          --border: #e3e7ee; --text: #131722; --muted: #687486; --mono-bg: #f4f6f9;
+          --accent-soft: rgba(247,147,26,0.14);
+        }
+        .addr { color: #38414f; }
+        .copy { color: #1a1205; }
+        .card:hover { border-color: #d2d9e4; box-shadow: 0 6px 20px rgba(20,30,50,0.06); }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <div class="brand">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="#F7931A" width="26" height="26">
+            <path d="M14.5818 0C14.9085 0 15.2791 0.0406912 15.2791 0.0406912C14.1828 1.35062 13.5222 2.96756 13.3886 4.66786C11.323 5.01212 9.42139 6.00336 7.9598 7.49766C6.49821 8.99196 5.55277 10.9115 5.26076 12.9776C3.37321 13.181 1.23768 14.0414 0.00946427 15.2708C-0.282274 6.83612 6.20599 0 14.5818 0ZM16.6823 25.339C16.296 25.3959 15.9059 25.4241 15.5154 25.4233C14.8413 25.4153 14.1686 25.3599 13.5024 25.2576C12.9818 26.5063 12.2949 27.6794 11.4602 28.7454C8.84188 28.1702 6.43336 26.887 4.49924 25.037C2.56511 23.187 1.18021 20.8417 0.496667 18.2587C1.81241 16.7037 4.85232 15.8027 6.73987 15.8027C10.7659 15.8027 12.9014 17.9303 13.6424 21.2466C11.2181 20.5927 9.77978 19.2411 8.83455 17.2356C8.28216 17.0358 7.698 16.9374 7.11038 16.945C6.58013 16.9428 6.05304 17.0263 5.54958 17.192C6.61734 21.2466 10.5616 24.2752 15.3666 24.2752C19.8039 24.2752 21.6915 22.0256 21.6915 22.0256V18.5843C21.6915 18.5843 19.5151 20.8368 16.8048 21.2873C16.5 19.185 15.5182 17.2382 14.0072 15.7396C12.4962 14.2411 10.5376 13.2718 8.42612 12.9776C9.12337 9.53918 11.7519 7.61507 15.3257 7.61507C18.8995 7.61507 21.7761 10.1932 21.7761 10.1932V6.79543C21.7761 6.79543 19.9264 5.07478 16.6415 4.70856C16.7232 3.19717 17.7092 1.31084 18.777 0.613275C23.2523 2.0055 27.5671 5.77234 28.7982 11.2569C28.7982 11.2569 26.8261 13.2217 23.1297 13.2217C20.0898 13.2217 18.1702 11.7074 17.0908 9.04798C16.5245 8.84704 15.9268 8.74861 15.3257 8.75733C14.7648 8.75121 14.2077 8.84979 13.6832 9.04798C14.8735 13.306 18.6428 16.1689 22.8438 16.1689C26.9515 16.1689 29.1687 14.2884 29.1687 14.2884C29.1687 22.8016 22.6367 28.9024 14.8735 29.0652C15.7779 28.1932 16.4752 26.2807 16.6823 25.339Z" />
+          </svg>
+          <span>Presentazione · Analisi on-chain</span>
+        </div>
+        <h1>Esercizi pratici</h1>
+        <p class="subtitle">
+          Per ogni esercizio trovi il nome e l'indirizzo da analizzare. Premi
+          <strong>Copia</strong> per copiare l'indirizzo negli appunti.
+        </p>
+        <div class="search-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="search" type="text" placeholder="Cerca un esercizio o un indirizzo..." />
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="group" data-group>
+        <div class="group-head"><h2>Esercizi (1)</h2><span class="count">4 esercizi</span></div>
+        <div class="grid" id="group1"></div>
+      </section>
+      <section class="group" data-group>
+        <div class="group-head"><h2>Esercizi (2)</h2><span class="count">9 esercizi</span></div>
+        <div class="grid" id="group2"></div>
+      </section>
+      <p class="noresults" id="noresults">Nessun esercizio corrisponde alla ricerca.</p>
+    </main>
+
+    <footer>Esercizi di analisi on-chain · Presentazione</footer>
+
+    <script>
+      const groups = {
+        group1: [
+          { name: "Demo 1", addr: "399APXJrnenZWzDzBjmm8SQqkjGLGQfAQY" },
+          { name: "Demo 2", addr: "1EM4e8eu2S2RQrbS8C6aYnunWpkAwQ8GtG" },
+          { name: "Organizzazione dei grafici", addr: "1Hpbm48zy8X4QrDgMUcUts6PdKVikPLrg7" },
+          { name: "SES", addr: "14zgaN83q3kyMphZ9ZmzbvFLf3zBvA1L3a" },
+        ],
+        group2: [
+          { name: "Esercizio in Reactor", addr: "1Dz2MRZ5VHyCJ826gng18AnWgUXtbbiHBD" },
+          { name: "Analisi dell'indirizzo di cambio", addr: "1EiZKi7EKvWDJzvnfySWvsNigBFyURrfiR" },
+          { name: "Identificazione di cluster su ETH (1)", addr: "0xadA5f22Af0C241B16dD5985aAC168DC011f63fE4" },
+          { name: "Identificazione di cluster su ETH (2)", addr: "0x6168490A107E17bd23bd3b7153Fec9Abc3C62E0a" },
+          { name: "Polira", addr: "17yXgax9edSo6rgycJ1kMrKMFTu3bvRwdG" },
+          { name: "Bitcoin Sign Guy", addr: "1GwtZF9QFKWNqCRHLx1Y9adGcrhQSUnNfY" },
+          { name: "Garantex", addr: "bc1qwtz3zv95x2flu4w26kgfepf529z50r2sqc5zml" },
+          { name: "Finanziamento", addr: "TJyLJ9Qc99u4YZYfX2H793VsZm4fXeLFZi" },
+          { name: "TF", addr: "17QAWGVpFV4gZ25NQug46e5mBho4uDP6MD" },
+        ],
+      };
+
+      function detectChain(addr) {
+        if (/^0x[0-9a-fA-F]{40}$/.test(addr)) return { label: "Ethereum", cls: "eth" };
+        if (/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(addr)) return { label: "Tron", cls: "trx" };
+        return { label: "Bitcoin", cls: "btc" };
+      }
+
+      const copySvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+
+      function makeCard(ex, index) {
+        const chain = detectChain(ex.addr);
+        const el = document.createElement("div");
+        el.className = "card";
+        el.dataset.search = (ex.name + " " + ex.addr).toLowerCase();
+        el.innerHTML = `
+          <div class="card-top">
+            <div class="name-row"><span class="num">${index}.</span><span class="name">${ex.name}</span></div>
+            <span class="chip ${chain.cls}">${chain.label}</span>
+          </div>
+          <div class="addr-row">
+            <code class="addr">${ex.addr}</code>
+            <button class="copy" data-addr="${ex.addr}">${copySvg}<span class="lbl">Copia</span></button>
+          </div>`;
+        return el;
+      }
+
+      let counter = 1;
+      ["group1", "group2"].forEach((gid) => {
+        const c = document.getElementById(gid);
+        groups[gid].forEach((ex) => c.appendChild(makeCard(ex, counter++)));
+      });
+
+      document.addEventListener("click", async (e) => {
+        const btn = e.target.closest(".copy");
+        if (!btn) return;
+        const addr = btn.dataset.addr;
+        try { await navigator.clipboard.writeText(addr); }
+        catch (_) {
+          const ta = document.createElement("textarea");
+          ta.value = addr; document.body.appendChild(ta); ta.select();
+          document.execCommand("copy"); document.body.removeChild(ta);
+        }
+        const lbl = btn.querySelector(".lbl");
+        const prev = lbl.textContent;
+        lbl.textContent = "Copiato!";
+        btn.classList.add("done");
+        setTimeout(() => { lbl.textContent = prev; btn.classList.remove("done"); }, 1400);
+      });
+
+      const search = document.getElementById("search");
+      const noresults = document.getElementById("noresults");
+      search.addEventListener("input", () => {
+        const q = search.value.trim().toLowerCase();
+        let visible = 0;
+        document.querySelectorAll(".card").forEach((c) => {
+          const match = c.dataset.search.includes(q);
+          c.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+        document.querySelectorAll("[data-group]").forEach((sec) => {
+          const any = [...sec.querySelectorAll(".card")].some((c) => c.style.display !== "none");
+          sec.style.display = any ? "" : "none";
+        });
+        noresults.style.display = visible ? "none" : "block";
+      });
+    </script>
+  </body>
+</html>
